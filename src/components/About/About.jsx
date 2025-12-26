@@ -83,7 +83,7 @@ const About = () => {
           trigger: self.selector(".rightAbout"),
           start: "top 80%",
           end: "top 40%",
-          scrub: 1.5, // 🔹 smoother scroll
+          scrub: 1.5,
         },
       });
     },
