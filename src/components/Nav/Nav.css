@@ -1,0 +1,98 @@
+nav {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+   background-color: rgb(18, 20, 24);
+}
+.active {
+  color: rgb(107, 211, 211);
+  border-bottom: 2px solid white;
+}
+nav ul a {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+nav ul a:hover {
+  color: rgb(107, 211, 211);
+  border-bottom: 2px solid white;
+}
+nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  list-style: none;
+  font-size: 20px;
+}
+nav h1 {
+  font-size: 30px;
+  background-image: linear-gradient(to right, rgb(66, 180, 205), white);
+  background-clip: text;
+  color: transparent;
+}
+
+.hamburger{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-direction: column;
+    display: none;
+    cursor: pointer;
+    
+}
+
+.ham{
+    width: 40px;
+    height: 2px;
+    background-color: aliceblue;
+    transition: all .5s;
+}
+
+.mobileMenu{
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(18, 20, 24, 0.411);
+    backdrop-filter: blur(7px);
+    right: 0;
+    transform: translateX(100%);
+    display: flex;
+    flex-direction: column;
+    transition: all .5s;
+    gap: 50px;
+
+}
+.activemobile{
+    transform: translateX(0%);
+}
+.activeHam .ham:nth-child(1){
+    transform: rotate(45deg);
+    position: relative;
+    top: 10px;
+}
+.activeHam .ham:nth-child(2){
+    opacity: 0;
+}
+.activeHam .ham:nth-child(3){
+    transform: rotate(-45deg);
+    position: relative;
+    top: -10px;
+}
+
+@media (max-width:750px) {
+    .desktopMenu{
+        display: none;
+    }
+    .hamburger{
+        display: flex;
+    }
+}
