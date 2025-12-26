@@ -13,6 +13,7 @@
   background-image: linear-gradient(to right, rgb(205, 66, 73), white);
   background-clip: text;
   color: transparent;
+  text-align: center;
 }
 .slider {
   width: 90%;

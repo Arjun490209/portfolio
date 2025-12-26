@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Contact.css";
 import contact from "../../assets/contact.png";
 import { useGSAP } from "@gsap/react";
@@ -8,50 +8,58 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
-  useGSAP(() => {
-    gsap.from(".left-contact img", {
-      x: -80,
-      opacity: 0,
-      scale: 0.95,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".left-contact",
-        start: "top 85%",
-        end: "top 45%",
-        scrub: 1,
-      },
-    });
-    gsap.from(".right-contact form", {
-      x: 80,
-      opacity: 0,
-      scale: 0.95,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".right-contact",
-        start: "top 85%",
-        end: "top 45%",
-        scrub: 1,
-      },
-    });
-  });
+  const contactRef = useRef(null);
+
+  useGSAP(
+    (self) => {
+      gsap.fromTo(
+        self.selector(".left-contact img"),
+        { opacity: 0, x: -80 },
+        {
+          opacity: 1,
+          x: 0,
+          scrollTrigger: {
+            trigger: self.selector(".left-contact"),
+            start: "top 85%",
+            scrub: 1,
+          },
+        }
+      );
+
+      gsap.fromTo(
+        self.selector(".right-contact form"),
+        { opacity: 0, x: 80 },
+        {
+          opacity: 1,
+          x: 0,
+          scrollTrigger: {
+            trigger: self.selector(".right-contact"),
+            start: "top 85%",
+            scrub: 1,
+          },
+        }
+      );
+
+      ScrollTrigger.refresh();
+    },
+    { scope: contactRef }
+  );
+
   return (
-    <div id="contact">
+    <section id="contact" ref={contactRef}>
       <div className="left-contact">
-        <img src={contact} alt="" />
+        <img src={contact} alt="contact" />
       </div>
+
       <div className="right-contact">
         <form action="https://formspree.io/f/mvzpeydd" method="POST">
-          <input type="text" name="username" placeholder="Enter your name " />
-          <input type="email" name="Email" placeholder="Enter your email " />
-          <textarea
-            name="message"
-            id="textarea"
-            placeholder="Message me..."
-          ></textarea>
-          <input type="submit" value="Send.." id="btn" />
+          <input type="text" name="username" placeholder="Your Name" />
+          <input type="email" name="email" placeholder="Your Email" />
+          <textarea name="message" placeholder="Message..." />
+          <input type="submit" value="Send" />
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 

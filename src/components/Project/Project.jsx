@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Project.css";
 import Cart from "../Card/Cart";
 import lms from "../../assets/lms.png";
@@ -13,72 +13,61 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const Project = () => {
-  useGSAP(() => {
-    // 🔹 Project heading animation
-    gsap.from("#project h1", {
-      y: 80,
-      opacity: 0,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: "#project h1",
-        start: "top 85%",
-        end: "top 50%",
-        scrub: 1,
-      },
-    });
+  const projectRef = useRef(null);
 
-    // 🔹 Slider container entry
-    gsap.from(".slider", {
-      y: 50,
-      opacity: 0,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".slider",
-        start: "top 80%",
-        end: "top 45%",
-        scrub: 1,
-      },
-    });
-
-    // 🔹 Cards stagger animation
-    gsap.from(".slider > *", {
-      y: 40,
-      opacity: 0,
-      stagger: 0.2,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".slider",
-        start: "top 75%",
-        end: "top 40%",
-        scrub: 1,
-      },
-    });
-
-    // 🔹 Mouse wheel → horizontal scroll
-    const slider = document.querySelector(".slider");
-    if (slider) {
-      slider.addEventListener(
-        "wheel",
-        (e) => {
-          e.preventDefault();
-          slider.scrollLeft += e.deltaY * 0.8; // smooth speed
-        },
-        { passive: false }
+  useGSAP(
+    (self) => {
+      /* ---------- Heading ---------- */
+      gsap.fromTo(
+        self.selector("h1"),
+        { opacity: 0, y: 80 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: self.selector("h1"),
+            start: "top 70%",
+            once: true, // 🔥 run only once
+          },
+        }
       );
-    }
-  });
+
+      /* ---------- Cards ---------- */
+      gsap.fromTo(
+        self.selector(".slider > *"),
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.15,
+          clearProps: "transform",
+          scrollTrigger: {
+            trigger: self.selector(".slider"),
+            start: "top 65%",
+            once: true, // 🔥 animation ek hi baar
+          },
+        }
+      );
+    },
+    { scope: projectRef }
+  );
 
   return (
-    <div id="project">
-      <h1>My Experienced in Project</h1>
+    <section id="project" ref={projectRef}>
+      <h1>My Experience in Projects</h1>
+
       <div className="slider">
-        <Cart title={"LMS"} image={lms} />
-        <Cart title={"SHOPPING"} image={shopping} />
-        <Cart title={"AUTHORIZATION"} image={auth} />
-        <Cart title={"MONEY MANAGER"} image={money} />
-        <Cart title={"TYPING MASTER"} image={typing} />
+        <Cart title="LMS" image={lms} />
+        <Cart title="SHOPPING" image={shopping} />
+        <Cart title="AUTHORIZATION" image={auth} />
+        <Cart title="MONEY MANAGER" image={money} />
+        <Cart title="TYPING MASTER" image={typing} />
       </div>
-    </div>
+    </section>
   );
 };
 

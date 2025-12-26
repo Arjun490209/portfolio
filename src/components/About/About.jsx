@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./About.css";
 import Card from "../Card/Cart";
 import mern from "../../assets/mern.png";
@@ -11,93 +11,87 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
- 
-  useGSAP(() => {
+  const aboutRef = useRef(null);
 
-  gsap.from(".circle", {
-    x: -60,
-    opacity: 0,
-    stagger: 0.2,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".circle",
-      start: "top 70%",
-      end: "top 40%",
-      scrub: 0.8,
+  useGSAP(
+    (self) => {
+      /* ---------- Circle ---------- */
+      gsap.from(self.selector(".circle"), {
+        x: -60,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: self.selector(".circle-line"),
+          start: "top 80%",
+          end: "top 40%",
+          scrub: 0.8,
+        },
+      });
+
+      /* ---------- Line ---------- */
+      gsap.from(self.selector(".line"), {
+        scaleY: 0,
+        opacity: 0,
+        transformOrigin: "top",
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: self.selector(".circle-line"),
+          start: "top 80%",
+          end: "top 40%",
+          scrub: 0.8,
+        },
+      });
+
+      /* ---------- About Headings ---------- */
+      gsap.from(self.selector(".about-details h1"), {
+        x: -50,
+        opacity: 0,
+        stagger: 0.25,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: self.selector(".about-details"),
+          start: "top 80%",
+          end: "top 40%",
+          scrub: 0.8,
+        },
+      });
+
+      /* ---------- About List ---------- */
+      gsap.from(self.selector(".about-details li"), {
+        y: 40,
+        opacity: 0,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: self.selector(".about-details"),
+          start: "top 80%",
+          end: "top 40%",
+          scrub: 0.8,
+        },
+      });
+
+      /* ---------- RIGHT CARDS (SCROLL BASED) ---------- */
+      gsap.from(self.selector(".rightAbout > *"), {
+        x: 100,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "power1.inOut",
+        clearProps: "transform",
+        scrollTrigger: {
+          trigger: self.selector(".rightAbout"),
+          start: "top 80%",
+          end: "top 40%",
+          scrub: 1.5, // 🔹 smoother scroll
+        },
+      });
     },
-  });
-
-  gsap.from(".line", {
-    scaleY: 0,
-    opacity: 0,
-    transformOrigin: "top",
-    stagger: 0.2,
-    ease: "power2.out",
-    scrollTrigger: {
-      trigger: ".line",
-      start: "top 70%",
-      end: "top 40%",
-      scrub: 0.8,
-    },
-  });
-
-  gsap.from(".about-details h1", {
-    x: -50,
-    opacity: 0,
-    stagger: 0.25,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".about-details",
-      start: "top 75%",
-      end: "top 40%",
-      scrub: 0.8,
-    },
-  });
-
-  gsap.from(".about-details li", {
-    y: 50,
-    opacity: 0,
-    stagger: 0.15,
-    ease: "power2.out",
-    scrollTrigger: {
-      trigger: ".about-details",
-      start: "top 70%",
-      end: "top 40%",
-      scrub: 0.8
-    },
-  });
-
-  gsap.from(".rightAbout > *", {
-    x: 100,
-    opacity: 0,
-    stagger: 0.25,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: ".rightAbout",
-      start: "top 75%",
-      end: "top 45%",
-      scrub: 0.8,
-    },
-  });
-  gsap.from(".right-contact form > *", {
-  y: 30,
-  opacity: 0,
-  stagger: 0.15,
-  ease: "power2.out",
-  scrollTrigger: {
-    trigger: ".right-contact",
-    start: "top 80%",
-    end: "top 40%",
-    scrub: 1,
-  },
-});
-
-
-});
-
+    { scope: aboutRef }
+  );
 
   return (
-    <div id="about">
+    <section id="about" ref={aboutRef}>
       <div className="leftAbout">
         <div className="circle-line">
           <div className="circle"></div>
@@ -106,6 +100,7 @@ const About = () => {
           <div className="line"></div>
           <div className="circle"></div>
         </div>
+
         <div className="about-details">
           <div className="person-info">
             <h1>Person Info</h1>
@@ -124,6 +119,7 @@ const About = () => {
               </li>
             </ul>
           </div>
+
           <div className="education">
             <h1>Education</h1>
             <ul>
@@ -138,6 +134,7 @@ const About = () => {
               </li>
             </ul>
           </div>
+
           <div className="skill">
             <h1>Skills</h1>
             <ul>
@@ -147,12 +144,14 @@ const About = () => {
           </div>
         </div>
       </div>
+
       <div className="rightAbout">
-        <Card title={"MERN STACK DEVELOPER"} image={mern} />
-        <Card title={"NEXT JS BASIC"} image={next} />
-        <Card title={"JAVA BASIC"} image={java} />
+        <Card title="MERN STACK DEVELOPER" image={mern} />
+        <Card title="NEXT JS BASIC" image={next} />
+        <Card title="JAVA BASIC" image={java} />
       </div>
-    </div>
+    </section>
   );
 };
+
 export default About;
